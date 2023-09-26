@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
-    <title>The Christ Church Bell in Old City Philadelphia</title>
+    <title>My Statue Yard</title>
 
     <script src="https://aframe.io/releaes/0.7.0/aframe.min.js"></script>
 
@@ -117,9 +117,10 @@
 
       <!-- End right section of wall -->
 
-      <!-- Bell -->
+      <!-- Statue -->
 
       <a-entity
+        animation="property: rotation; to: 0 360 0; loop: true; dur: 10000"
         gltf-model="models/ibexstatue.glb"
         position="5.39038 15h 1.10239"
         rotation="0 41.15670433983729 0"
@@ -129,12 +130,19 @@
 
       <!-- Shiba Model -->
       <a-entity 
+        animation="property: rotation; to: 0 360 0; loop: true; dur: 10000"
         gltf-model="models/shiba.glb" 
         position="20.39038 15h 1.10239" 
         rotation="0 41.15670433983729 0" 
         scale="14 14 14" 
       ></a-entity>
 
+      <a-light 
+      type="point" 
+      color="#ffffff" 
+      position="5 20 5" 
+      intensity="1">
+      ></a-light>
 
       <!-- Sky -->
 
@@ -154,12 +162,6 @@
         scale="5 5 1"
       ></a-plane>
 
-      <!-- FOG -->
-
-      <a-entity
-        position="0 2.25 -15"
-        particle-system="color: #EF0000,#44CC00"
-      ></a-entity>
 
       <!-- TEXT -->
 
