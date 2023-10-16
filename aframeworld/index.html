@@ -22,6 +22,11 @@
     <a-scene
       loading-screen="dotsColor: #DF5532; backgroundColor: #ffffff00"
     >
+
+        <!-- Assets -->
+      <a-assets>
+          <img id="uploaded360Image" src="/mnt/data/Realism_equirectangular-jpg_a_tropical_city_mixed_601765043_9086052.jpg">
+      </a-assets>
       <!-- Wall 1 -->
 
       <!-- Front section of the wall -->
@@ -138,7 +143,7 @@
 
       <!-- Sky -->
 
-      <a-sky src="skies/sunset.jpg" rotation="0 -130 0"> </a-sky>
+      <a-sky src="src="#uploaded360Image"" rotation="0 -130 0"> </a-sky>
 
       <!-- GRASS -->
 
