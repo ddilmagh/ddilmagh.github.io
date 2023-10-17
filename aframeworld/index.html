@@ -16,7 +16,24 @@
     <script src="https://unpkg.com/aframe-thumb-controls-component@1.1.0/dist/aframe-thumb-controls-component.min.js"></script>
     <script src="https://rawgit.com/fernandojsg/aframe-teleport-controls/master/dist/aframe-teleport-controls.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
-    <script src="https://recast-api.donmccurdy.com/aframe-inspector-plugin-recast.js"></script>
+    <script src="https://recast-api.donmccurdy.com/aframe-inspector-plugin-recast.js">
+      
+    <!-- Web Link Hotspot Script -->
+    <script>
+        AFRAME.registerComponent("weblink", {
+            schema: {
+                url: {
+                    default: ""
+                }
+            },
+            init: function() {
+                this.el.addEventListener("click", (e) => {
+                    window.location = this.data.url;
+                });
+            }
+        });
+
+ </script>
   </head>
   <body>
     <a-scene
@@ -40,12 +57,13 @@
         scale="28 28 28"
         ></a-entity>
 
-      <!-- Shiba Model -->
-
-      <a-entity gltf-model="models/shiba.glb" 
-        position="135.37 28.52812 -27.527" 
-        rotation="0.3260129854294384 -68.98068078698033 -0.5534772300963753" 
-        scale="28 28 28"
+   <!-- Shiba Model acting as a Hotspot -->
+        <a-entity 
+            gltf-model="models/shiba.glb" 
+            position="135.37 28.52812 -27.527" 
+            rotation="0.3260129854294384 -68.98068078698033 -0.5534772300963753" 
+            scale="28 28 28"
+            weblink="url: world2.html"
         ></a-entity>
       
 
@@ -143,6 +161,22 @@
         position="-186 25 132"
         rotation="-2.8 -75 -1"
       >
+
+
+        
+        <!-- Hotspots -->
+        <!-- Hotspot 1 -->
+        <a-box position="0 2 -10" width="2" height="2" depth="2" color="red" weblink="url: world2.html" look-at="#cameraRig">
+            <a-text value="World 2" align="center" position="0 0.6 0"></a-text>
+        </a-box>
+
+        <!-- Hotspot 2 -->
+        <a-box position="10 2 -10" width="2" height="2" depth="2" color="blue" weblink="url: world3.html" look-at="#cameraRig">
+            <a-text value="World 3" align="center" position="0 0.6 0"></a-text>
+        </a-box>
+
+
+        
         <!-- camera -->
         <a-entity
           id="head"
