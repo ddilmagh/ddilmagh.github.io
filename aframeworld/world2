@@ -1,0 +1,174 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <title>My Statue Yard</title>
+
+    <script src="https://aframe.io/releaes/0.7.0/aframe.min.js"></script>
+
+    <meta aframe-injected="" name="mobile-web-app-capable" content="yes" />
+
+    <meta aframe-injected="" name="theme-color" content="black" />
+
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-thumb-controls-component@1.1.0/dist/aframe-thumb-controls-component.min.js"></script>
+    <script src="https://rawgit.com/fernandojsg/aframe-teleport-controls/master/dist/aframe-teleport-controls.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+    <script src="https://recast-api.donmccurdy.com/aframe-inspector-plugin-recast.js"></script>
+  </head>
+  <body>
+    <a-scene
+      loading-screen="dotsColor: #DF5532; backgroundColor: #ffffff00"
+    >
+
+        <!-- Assets -->
+      <a-assets>
+          <img id="skydomeAsset" src="skies/skydome.jpeg">
+      </a-assets>
+      <!-- Wall 1 -->
+
+
+
+     
+      <!-- Statue -->
+      <a-entity
+        gltf-model="models/ibexstatue.glb" 
+        position="-123.04938 29.6263 -109.78851" 
+        rotation="0.81 40.217 0" 
+        scale="28 28 28"
+        ></a-entity>
+
+      <!-- Shiba Model -->
+
+      <a-entity gltf-model="models/shiba.glb" 
+        position="135.37 28.52812 -27.527" 
+        rotation="0.3260129854294384 -68.98068078698033 -0.5534772300963753" 
+        scale="28 28 28"
+        ></a-entity>
+      
+
+      
+
+      <!-- Sky -->
+
+     <a-sky src="iran.jpg" rotation="0 0 0"></a-sky>
+
+      <!-- GRASS -->
+
+      <a-plane
+        src="grass.jpg"
+        position="0 0 -4"
+        rotation="-90 0 0"
+        width="100"
+        height="100"
+        color="#7BC8A4"
+        material=""
+        geometry=""
+        scale="5 5 1"
+      ></a-plane>
+
+
+      <!-- TEXT -->
+
+      <a-text
+        font="kelsonsans"
+        value="Desktop"
+        width="30"
+        position="-143.43281 44 62"
+        rotation="0 -40.730996698055094 0"
+        color="#0d0c0c"
+        text="value: Welcome! Here's how to get around...; color: #d95000; transparent: false"
+        scale="4 4 4"
+        id="welcome"
+      ></a-text>
+
+      <a-text
+        font="kelsonsans"
+        value="Instructions"
+        width="30"
+        position="-143.43281 28 62.05978"
+        rotation="0 -40.730996698055094 0"
+        color="#0d0c0c"
+        text="value: MOBILE: Hold down one thumb to move forward, two thumbs to move backward.; color: #d95000; transparent: false"
+        scale="4 4 4"
+        id="mobileinstructions"
+      ></a-text>
+
+      <a-text
+        font="kelsonsans"
+        value="Desktop"
+        width="30"
+        position="-143.43281 15 62.05978"
+        rotation="0 -40.730996698055094 0"
+        color="#0d0c0c"
+        text="value: DESKTOP: Use WASD + arrow keys.; color: #d95000; transparent: false"
+        scale="4 4 4"
+        id="desktopinstructions"
+      ></a-text>
+
+      <a-text
+        font="kelsonsans"
+        value="QR"
+        width="30"
+        position="-143.43281 5.7 62.05978"
+        rotation="0 -40.730996698055094 0"
+        color="#0d0c0c"
+        text="value: Scan the code to switch to mobile.; color: #d95000; transparent: false"
+        scale="4 4 4"
+        id="desktopinstructions"
+      ></a-text>
+
+      <a-text
+        font="kelsonsans"
+        value="Instructions"
+        width="30"
+        position="-28 3.4 -10"
+        rotation="0 -48.53582778332717 0"
+        color="#302d2c"
+        text="value: My Statues; color: #302d2c; transparent: false"
+        scale="2 2 2"
+        id="belllabel"
+      ></a-text>
+
+     
+
+      <!-- Basic movement and teleportation  -->
+
+      <a-entity
+        id="cameraRig"
+        movement-controls="constrainToNavMesh: true; fly: false; speed: 5;"
+        navigator="cameraRig: #cameraRig; cameraHead: #head; collisionEntities: .collision; ignoreEntities: .clickable"
+        position="-186 25 132"
+        rotation="-2.8 -75 -1"
+      >
+        <!-- camera -->
+        <a-entity
+          id="head"
+          camera="active: true"
+          position="0 1.6 0"
+          look-controls="pointerLockEnabled: true; reverseMouseDrag: false"
+        ></a-entity>
+
+        <!-- Left Controller -->
+        <a-entity
+          id="leftHand"
+          hand-controls="hand: left; handModelStyle: lowPoly; color: #15ACCF"
+          teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head; button: trigger; curveShootingSpeed: 18; landingMaxAngle: 60"
+          visible="true"
+        ></a-entity>
+
+        <!-- Right Controller -->
+        <a-entity
+          id="rightHand"
+          hand-controls="hand: right; handModelStyle: lowPoly; color: #15ACCF"
+          laser-controls
+          raycaster="showLine: true; far: 10; interval: 0; objects: .clickable, a-link;"
+          line="color: #7cfc00; opacity: 0.5"
+          visible="true"
+        ></a-entity>
+      </a-entity>
+    </a-scene>
+  </body>
+</html>
