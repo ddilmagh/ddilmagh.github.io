@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -15,8 +14,8 @@
 <!-- Button to start the video -->
 <button onclick="startVideo()">Start Video</button>
 
-<a-scene>
-    <a-assets>
+<a-scene embedded>
+    <a-assets timeout="10000">
         <!-- Updated video element with crossorigin and autoplay attributes -->
         <video id="bitmovinVideo" loop="true" webkit-playsinline muted crossorigin="anonymous" autoplay></video>
     </a-assets>
@@ -47,6 +46,11 @@
         aframeVideo.srcObject = videoElement.captureStream();
         aframeVideo.addEventListener('loadeddata', function() {
             aframeVideo.play();
+            // Start the A-Frame scene once the video is ready
+            const sceneEl = document.querySelector('a-scene');
+            if (sceneEl && !sceneEl.isPlaying) {
+                sceneEl.play();
+            }
         });
     });
 
