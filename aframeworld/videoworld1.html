@@ -12,14 +12,17 @@
     <script src="https://cdn.bitmovin.com/player/web/8/bitmovinplayer.js"></script>
 </head>
 <body>
+
+<!-- Button to start the video -->
+<button onclick="startVideo()">Start Video</button>
+
 <a-scene>
     <a-assets>
         <!-- This will be our video source -->
-        <video id="bitmovinVideo" autoplay loop="true" webkit-playsinline></video>
+        <video id="bitmovinVideo" loop="true" webkit-playsinline muted></video>
     </a-assets>
     <!-- Use the video as the source for our videosphere -->
     <a-videosphere src="#bitmovinVideo"></a-videosphere>
-    <!-- ... rest of your A-Frame entities ... -->
 </a-scene>
 
 <!-- Invisible Bitmovin Player -->
@@ -45,6 +48,23 @@
         aframeVideo.srcObject = videoElement.captureStream();
         aframeVideo.play();
     });
+
+    // Log Bitmovin player errors or warnings
+    player.on(bitmovin.player.PlayerEvent.Error, function(error) {
+        console.error('Bitmovin Player Error: ', error);
+    });
+
+    player.on(bitmovin.player.PlayerEvent.Warning, function(warning) {
+        console.warn('Bitmovin Player Warning: ', warning);
+    });
+
+    function startVideo() {
+        const aframeVideo = document.querySelector('#bitmovinVideo');
+        if (aframeVideo) {
+            aframeVideo.play();
+        }
+    }
+
 </script>
 </body>
 </html>
