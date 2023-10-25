@@ -4,9 +4,8 @@
     <meta charset="utf-8">
     <title>Videosphere</title>
     <meta name="description" content="Videosphere - A-Frame">
-    <script src="../../../dist/aframe-master.js"></script>
-    <script src="../../js/play-on-click.js"></script>
-    <script src="../../js/hide-on-play.js"></script>
+    <!-- A-Frame Library from Official CDN -->
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <!-- Bitmovin Player JS -->
     <script src="https://cdn.bitmovin.com/player/web/8/bitmovinplayer.js"></script>
   </head>
@@ -19,8 +18,7 @@
       <a-videosphere
         rotation="0 -90 0"
         src="#aframeVideo"
-        visible="false"
-        play-on-click>
+        visible="false">
       </a-videosphere>
       <a-camera>
         <a-entity
@@ -29,8 +27,7 @@
                 width: 6;
                 wrapCount: 100;
                 color: black;
-                value: Click or tap to start video"
-          hide-on-play="#aframeVideo">
+                value: Click or tap to start video">
         </a-entity>
       </a-camera>
     </a-scene>
@@ -40,7 +37,7 @@
 
     <script>
         var playerConfig = {
-            key: 'bb7c6e97-2cd0-455f-8d23-41b3fa794c91	',
+            key: 'bb7c6e97-2cd0-455f-8d23-41b3fa794c91',
             source: {
                 dash: 'https://streams.bitmovin.com/ckod4hdgd71ilgk6cbo0/manifest.mpd',
                 hls: 'https://streams.bitmovin.com/ckod4hdgd71ilgk6cbo0/manifest.m3u8'
