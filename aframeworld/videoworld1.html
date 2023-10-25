@@ -36,23 +36,48 @@
     <div id="bitmovin-player" style="width: 0; height: 0; visibility: hidden;"></div>
 
     <script>
-        var playerConfig = {
-            key: 'bb7c6e97-2cd0-455f-8d23-41b3fa794c91',
-            source: {
-                dash: 'https://streams.bitmovin.com/ckod4hdgd71ilgk6cbo0/manifest.mpd',
-                hls: 'https://streams.bitmovin.com/ckod4hdgd71ilgk6cbo0/manifest.m3u8'
+        // Ensure both A-Frame and Bitmovin are loaded
+        window.addEventListener('DOMContentLoaded', function() {
+            if (typeof AFRAME === 'undefined' || typeof bitmovin === 'undefined') {
+                console.error('A-Frame or Bitmovin libraries not loaded!');
+                return;
             }
-        };
 
-        var playerContainer = document.getElementById('bitmovin-player');
-        var player = new bitmovin.player.Player(playerContainer, playerConfig);
-        player.load(playerConfig.source);
+            var playerConfig = {
+                key: 'bb7c6e97-2cd0-455f-8d23-41b3fa794c91',
+                source: {
+                    dash: 'https://streams.bitmovin.com/ckod4hdgd71ilgk6cbo0/manifest.mpd',
+                    hls: 'https://streams.bitmovin.com/ckod4hdgd71ilgk6cbo0/manifest.m3u8'
+                }
+            };
 
-        // Once the Bitmovin player starts playing, apply its video to the A-Frame videosphere
-        player.on(bitmovin.player.PlayerEvent.Play, function() {
-            const videoElement = document.querySelector('#bitmovin-player video');
-            const aframeVideo = document.querySelector('#aframeVideo');
-            aframeVideo.srcObject = videoElement.captureStream();
+            var playerContainer = document.getElementById('bitmovin-player');
+            var player = new bitmovin.player.Player(playerContainer, playerConfig);
+            player.load(playerConfig.source);
+
+            // Once the Bitmovin player starts playing, apply its video to the A-Frame videosphere
+            player.on(bitmovin.player.PlayerEvent.Play, function() {
+                const videoElement = document.querySelector('#bitmovin-player video');
+                const aframeVideo = document.querySelector('#aframeVideo');
+                aframeVideo.srcObject = videoElement.captureStream();
+            });
+
+            // Enhanced error and warning handling
+            player.on(bitmovin.player.PlayerEvent.Error, function(error) {
+                console.error('Bitmovin Player Error: ', error);
+            });
+
+            player.on(bitmovin.player.PlayerEvent.Warning, function(warning) {
+                console.warn('Bitmovin Player Warning: ', warning);
+            });
+
+            player.on(bitmovin.player.PlayerEvent.Ready, function() {
+                console.log('Bitmovin Player is ready.');
+            });
+
+            player.on(bitmovin.player.PlayerEvent.SourceLoaded, function() {
+                console.log('Bitmovin Player source loaded.');
+            });
         });
     </script>
   </body>
