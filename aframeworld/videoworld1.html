@@ -28,7 +28,7 @@
 
 <script>
     var playerConfig = {
-        key: 'd42a907d-dea3-4d57-a114-986d3ebcbef6',
+        key: '0824b36b-918e-4edb-a9e3-75a1a4a26cea',
         source: {
             dash: 'https://streams.bitmovin.com/ckod4hdgd71ilgk6cbo0/manifest.mpd',
             hls: 'https://streams.bitmovin.com/ckod4hdgd71ilgk6cbo0/manifest.m3u8'
@@ -37,7 +37,12 @@
 
     var playerContainer = document.getElementById('bitmovin-player');
     var player = new bitmovin.player.Player(playerContainer, playerConfig);
-    player.load(playerConfig.source);
+
+    // Load the Bitmovin player source and wait for the promise to resolve
+    player.load(playerConfig.source).then(function() {
+        // Once the source is loaded, start playing
+        player.play();
+    });
 
     // Once the Bitmovin player starts playing, apply its video to the A-Frame videosphere
     player.on(bitmovin.player.PlayerEvent.Play, function() {
