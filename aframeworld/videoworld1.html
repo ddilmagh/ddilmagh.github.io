@@ -11,7 +11,7 @@
 </head>
 <body>
   <a-scene>
-    <a-assets>
+    <a-assets timeout="30000">
       <!-- Video element for A-Frame -->
       <video id="aframeVideo" autoplay loop crossorigin="anonymous"></video>
     </a-assets>
@@ -21,7 +21,7 @@
       visible="false">
     </a-videosphere>
     <a-camera>
-      <a-cursor></a-cursor>
+      <a-cursor raycaster="objects: .raycastable"></a-cursor>
       <a-entity
         position="0 0 -1.5"
         text="align: center; width: 6; wrapCount: 100; color: black; value: Loading video...">
