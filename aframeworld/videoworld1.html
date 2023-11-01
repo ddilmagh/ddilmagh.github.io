@@ -11,7 +11,7 @@
 </head>
 <body>
   <a-scene>
-    <a-assets>
+    <a-assets timeout="10000">
       <!-- Video element for A-Frame -->
       <video id="aframeVideo" autoplay loop="true" crossorigin="anonymous"></video>
     </a-assets>
@@ -64,7 +64,7 @@
         }
       );
 
-      // Once the Bitmovin player starts playing, apply its video to the A-Frame videosphere
+    // Once the Bitmovin player starts playing, apply its video to the A-Frame videosphere
       player.on(bitmovin.player.PlayerEvent.Play, function() {
         const videoElement = document.querySelector('#bitmovin-player video');
         const aframeVideo = document.querySelector('#aframeVideo');
