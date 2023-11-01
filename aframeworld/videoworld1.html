@@ -13,7 +13,7 @@
   <a-scene>
     <a-assets timeout="10000">
       <!-- Video element for A-Frame -->
-      <video id="aframeVideo" autoplay loop="true" crossorigin="anonymous"></video>
+      <video id="aframeVideo" autoplay loop crossorigin="anonymous"></video>
     </a-assets>
     <a-videosphere
       rotation="0 -90 0"
@@ -24,11 +24,7 @@
       <a-cursor></a-cursor>
       <a-entity
         position="0 0 -1.5"
-        text="align: center;
-              width: 6;
-              wrapCount: 100;
-              color: black;
-              value: Loading video...">
+        text="align: center; width: 6; wrapCount: 100; color: black; value: Loading video...">
       </a-entity>
     </a-camera>
   </a-scene>
@@ -44,10 +40,10 @@
       }
 
       var playerConfig = {
-        key: 'bb7c6e97-2cd0-455f-8d23-41b3fa794c91', // Replace with your Bitmovin API key
+        key: 'bb7c6e97-2cd0-455f-8d23-41b3fa794c91', // Keep your Bitmovin API key
         source: {
-          dash: 'https://d2104364q3ku40.cloudfront.net/931780c0-7841-4e18-9475-e4cc21713b5f/stream.mpd', // Replace with the URL to your DASH manifest
-          hls: 'https://d2104364q3ku40.cloudfront.net/931780c0-7841-4e18-9475-e4cc21713b5f/index.m3u8' // Replace with the URL to your HLS manifest
+          dash: 'https://d2104364q3ku40.cloudfront.net/931780c0-7841-4e18-9475-e4cc21713b5f/stream.mpd', // Keep your DASH manifest URL
+          hls: 'https://d2104364q3ku40.cloudfront.net/931780c0-7841-4e18-9475-e4cc21713b5f/index.m3u8' // Keep your HLS manifest URL
         }
       };
 
@@ -64,16 +60,28 @@
         }
       );
 
-    // Once the Bitmovin player starts playing, apply its video to the A-Frame videosphere
       player.on(bitmovin.player.PlayerEvent.Play, function() {
         const videoElement = document.querySelector('#bitmovin-player video');
         const aframeVideo = document.querySelector('#aframeVideo');
-        aframeVideo.srcObject = videoElement.captureStream();
+        const stream = videoElement.captureStream();
+        if ('srcObject' in aframeVideo) {
+          aframeVideo.srcObject = stream;
+        } else {
+          // Older browsers may not have srcObject
+          aframeVideo.src = window.URL.createObjectURL(stream);
+        }
+        aframeVideo.play(); // Make sure to play the video if autoplay does not trigger
         const videosphere = document.querySelector('a-videosphere');
         videosphere.setAttribute('visible', 'true');
       });
 
-      // Add error and warning handling
+      // Handle video element errors.
+      const aframeVideo = document.querySelector('#aframeVideo');
+      aframeVideo.addEventListener('error', (event) => {
+        console.error('Video element error:', event);
+      });
+
+      // Add error and warning handling for Bitmovin player
       player.on(bitmovin.player.PlayerEvent.Error, function(error) {
         console.error('Bitmovin Player Error: ', error);
       });
