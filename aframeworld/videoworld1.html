@@ -16,7 +16,7 @@
     </a-assets>
     <a-videosphere src="#aframeVideo"></a-videosphere>
     <a-camera>
-      <a-cursor></a-cursor>
+      <a-cursor raycaster="objects: .interactive"></a-cursor>
     </a-camera>
   </a-scene>
 
@@ -44,6 +44,7 @@
 
       var playerContainer = document.getElementById('bitmovin-player');
       var player = new bitmovin.player.Player(playerContainer, playerConfig);
+
       player.load(playerConfig.source).then(function() {
         console.log('Successfully loaded the stream.');
         const videoElement = document.querySelector('#bitmovin-player video');
@@ -53,11 +54,12 @@
         if ('srcObject' in aframeVideo) {
           aframeVideo.srcObject = stream;
         } else {
+          // Older browsers may not support srcObject
           aframeVideo.src = window.URL.createObjectURL(stream);
         }
 
+        // When the video metadata has loaded, hide the play button and start the A-Frame video
         videoElement.addEventListener('loadedmetadata', function() {
-          // Hide play button and start the A-Frame video
           document.getElementById('playButton').style.display = 'none';
           aframeVideo.play();
         });
