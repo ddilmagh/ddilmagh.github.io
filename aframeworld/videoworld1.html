@@ -8,88 +8,113 @@
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
   <!-- Bitmovin Player JS -->
   <script src="https://cdn.bitmovin.com/player/web/8/bitmovinplayer.js"></script>
+  <!-- Custom Styles for Better UX -->
+  <style>
+    #play-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 10px 20px;
+      font-size: 18px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      outline: none;
+    }
+    #play-button:hover {
+      background-color: #0056b3;
+    }
+    #error-message {
+      color: red;
+      position: absolute;
+      top: 80%;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      display: none;
+    }
+  </style>
 </head>
 <body>
   <a-scene>
-    <a-assets>
+    <a-assets timeout="10000">
       <!-- Video element for A-Frame -->
-      <video id="aframeVideo" autoplay loop crossorigin="anonymous"></video>
+      <video id="aframeVideo" loop crossorigin="anonymous" muted></video>
     </a-assets>
-    <a-videosphere rotation="0 -90 0" src="#aframeVideo" visible="false"></a-videosphere>
+    <a-videosphere src="#aframeVideo" visible="false"></a-videosphere>
     <a-camera>
       <a-cursor></a-cursor>
-      <a-entity position="0 0 -1.5" text="align: center; width: 6; wrapCount: 100; color: black; value: Loading video..."></a-entity>
     </a-camera>
   </a-scene>
 
   <!-- Invisible Bitmovin Player -->
-  <div id="bitmovin-player" style="display: none;"></div>
+  <div id="bitmovin-player" style="width: 0; height: 0; visibility: hidden;"></div>
+
+  <!-- Play Button for User Interaction -->
+  <button id="play-button">Play Video</button>
+
+  <!-- Error Message Display -->
+  <div id="error-message"></div>
 
   <script>
-    (function() {
-      // Check for the presence of required libraries
+    window.addEventListener('DOMContentLoaded', function() {
       if (typeof AFRAME === 'undefined' || typeof bitmovin === 'undefined') {
-        console.error('A-Frame or Bitmovin libraries not loaded!');
+        showError('A-Frame or Bitmovin libraries not loaded!');
         return;
       }
 
-      // Configuration for the Bitmovin player
       var playerConfig = {
-        key: 'bb7c6e97-2cd0-455f-8d23-41b3fa794c91', // Bitmovin API key
+        key: 'bb7c6e97-2cd0-455f-8d23-41b3fa794c91',
         source: {
           dash: 'https://d2104364q3ku40.cloudfront.net/931780c0-7841-4e18-9475-e4cc21713b5f/stream.mpd',
           hls: 'https://d2104364q3ku40.cloudfront.net/931780c0-7841-4e18-9475-e4cc21713b5f/index.m3u8'
-        },
-        playback: {
-          autoplay: true,
-          muted: true // Start muted if autoplay is desired in some browsers
         }
       };
 
-      // Player instantiation
       var playerContainer = document.getElementById('bitmovin-player');
       var player = new bitmovin.player.Player(playerContainer, playerConfig);
 
-      // Attempt to load the source for the Bitmovin player
       player.load(playerConfig.source).then(
         function() {
           console.log('Successfully loaded the stream.');
         },
         function(reason) {
-          console.error('Error loading the stream:', reason);
+          showError('Error loading the stream: ' + reason.message);
         }
       );
 
-      // When the Bitmovin player starts playing, integrate with A-Frame
-      player.on(bitmovin.player.PlayerEvent.Play, function() {
-        var videoElement = document.querySelector('#bitmovin-player video');
-        var aframeVideo = document.querySelector('#aframeVideo');
-        
-        // Modern browsers should use srcObject
-        if ('srcObject' in aframeVideo) {
-          aframeVideo.srcObject = videoElement.captureStream();
-        } else {
-          // Fallback for older browsers
-          aframeVideo.src = window.URL.createObjectURL(videoElement.captureStream());
+      var playButton = document.getElementById('play-button');
+      playButton.addEventListener('click', function () {
+        playVideo();
+      });
+
+      function playVideo() {
+        const videoElement = document.querySelector('#bitmovin-player video');
+        const aframeVideo = document.querySelector('#aframeVideo');
+        if (videoElement && aframeVideo) {
+          const stream = videoElement.captureStream();
+          aframeVideo.srcObject = stream;
+          aframeVideo.play().catch(function (error) {
+            showError('Playback failed: ' + error.message);
+          });
+          document.querySelector('a-videosphere').setAttribute('visible', 'true');
+          playButton.style.display = 'none';
         }
-        
-        // Ensure the video is played, especially where autoplay is blocked
-        aframeVideo.play();
-        document.querySelector('a-videosphere').setAttribute('visible', 'true');
-      });
+      }
 
-      // Error handling for the A-Frame video element
-      var aframeVideo = document.querySelector('#aframeVideo');
-      aframeVideo.onerror = function(event) {
-        console.error('A-Frame video element error:', event);
-      };
+      function showError(message) {
+        const errorMessage = document.getElementById('error-message');
+        errorMessage.innerText = message;
+        errorMessage.style.display = 'block';
+      }
 
-      // Error handling for the Bitmovin player
       player.on(bitmovin.player.PlayerEvent.Error, function(error) {
-        console.error('Bitmovin Player Error: ', error);
+        showError('Bitmovin Player Error: ' + error.code + ' - ' + error.message);
       });
-
-    })();
+    });
   </script>
 </body>
 </html>
