@@ -28,6 +28,11 @@
     Play Video
   </button>
 
+  <!-- Sound Toggle Button -->
+  <button id="soundToggleButton" style="position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%); display: none;">
+    Unmute Sound
+  </button>
+
   <script>
     document.getElementById('playButton').addEventListener('click', function() {
       var playerConfig = {
@@ -58,10 +63,11 @@
           aframeVideo.src = window.URL.createObjectURL(stream);
         }
 
-        // When the video metadata has loaded, hide the play button and start the A-Frame video
         videoElement.addEventListener('loadedmetadata', function() {
           document.getElementById('playButton').style.display = 'none';
           aframeVideo.play();
+          // Show the sound toggle button
+          document.getElementById('soundToggleButton').style.display = 'block';
         });
       }).catch(function(error) {
         console.error('Error loading the stream:', error);
@@ -71,6 +77,22 @@
         console.error('Bitmovin Player Error: ', error);
       });
     });
+
+    // Listener for the sound toggle button
+    document.getElementById('soundToggleButton').addEventListener('click', function() {
+      var playerContainer = document.getElementById('bitmovin-player');
+      var player = new bitmovin.player.Player(playerContainer);
+      player.isMuted().then((muted) => {
+        if (muted) {
+          player.unmute();
+          this.textContent = 'Mute Sound';
+        } else {
+          player.mute();
+          this.textContent = 'Unmute Sound';
+        }
+      });
+    });
   </script>
 </body>
 </html>
+
