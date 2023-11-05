@@ -78,19 +78,7 @@
       });
     });
 
-    // Sound toggle button event listener
-    document.getElementById('soundToggleButton').addEventListener('click', function() {
-      var playerInstance = bitmovin.player.Player.getInstance(document.getElementById('bitmovin-player'));
-      if (playerInstance.isMuted()) {
-        playerInstance.unmute();
-        document.getElementById('aframeVideo').muted = false;
-        this.textContent = 'Mute Sound';
-      } else {
-        playerInstance.mute();
-        document.getElementById('aframeVideo').muted = true;
-        this.textContent = 'Unmute Sound';
-      }
-    });
+  
   </script>
 </body>
 </html>
