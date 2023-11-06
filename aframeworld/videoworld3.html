@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Videosphere</title>
+  <!-- A-Frame Library from Official CDN -->
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <!-- Bitmovin Player JS -->
+  <script src="https://cdn.bitmovin.com/player/web/8/bitmovinplayer.js"></script>
+</head>
+<body>
+  <a-scene>
+    <a-assets>
+      <!-- Video element for A-Frame -->
+      <video id="aframeVideo" loop crossorigin="anonymous"></video>
+    </a-assets>
+    <a-videosphere src="#aframeVideo"></a-videosphere>
+    <a-camera>
+      <a-cursor raycaster="objects: .interactive"></a-cursor>
+    </a-camera>
+  </a-scene>
+
+  <!-- Invisible Bitmovin Player -->
+  <div id="bitmovin-player" style="width: 0; height: 0; visibility: hidden;"></div>
+
+  <!-- Play Button -->
+  <button id="playButton" style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);">
+    Play Video
+  </button>
+
+  <!-- Sound Toggle Button -->
+  <button id="soundToggleButton" style="position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%); display: none;">
+    Toggle Sound
+  </button>
+
+  <script>
+    document.getElementById('playButton').addEventListener('click', function() {
+      var playerConfig = {
+        key: 'bb7c6e97-2cd0-455f-8d23-41b3fa794c91',
+        source: {
+          dash: 'https://d2104364q3ku40.cloudfront.net/031acb32-2c8b-4712-9190-46eb688107ad/stream.mpd',
+          hls: 'https://d2104364q3ku40.cloudfront.net/031acb32-2c8b-4712-9190-46eb688107ad/index.m3u8'
+        },
+        playback: {
+          autoplay: true,
+          muted: true // Start muted to allow autoplay in browsers
+        }
+      };
+
+      var playerContainer = document.getElementById('bitmovin-player');
+      var player = new bitmovin.player.Player(playerContainer, playerConfig);
+
+      player.load(playerConfig.source).then(function() {
+        console.log('Successfully loaded the stream.');
+        const videoElement = document.querySelector('#bitmovin-player video');
+        const aframeVideo = document.querySelector('#aframeVideo');
+        const stream = videoElement.captureStream();
+
+        if ('srcObject' in aframeVideo) {
+          aframeVideo.srcObject = stream;
+        } else {
+          // Older browsers may not support srcObject
+          aframeVideo.src = window.URL.createObjectURL(stream);
+        }
+
+        // When the video metadata has loaded, hide the play button and start the A-Frame video
+        videoElement.addEventListener('loadedmetadata', function() {
+          document.getElementById('playButton').style.display = 'none';
+          document.getElementById('soundToggleButton').style.display = 'block';
+          aframeVideo.play();
+        });
+      }).catch(function(error) {
+        console.error('Error loading the stream:', error);
+      });
+
+      player.on(bitmovin.player.PlayerEvent.Error, function(error) {
+        console.error('Bitmovin Player Error: ', error);
+      });
+    });
+
+  
+  </script>
+</body>
+</html>
+
+</html>
