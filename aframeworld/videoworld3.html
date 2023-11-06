@@ -66,7 +66,6 @@
         // When the video metadata has loaded, hide the play button and start the A-Frame video
         videoElement.addEventListener('loadedmetadata', function() {
           document.getElementById('playButton').style.display = 'none';
-          document.getElementById('soundToggleButton').style.display = 'block';
           aframeVideo.play();
         });
       }).catch(function(error) {
