@@ -12,6 +12,7 @@
     <script src="https://rawgit.com/fernandojsg/aframe-teleport-controls/master/dist/aframe-teleport-controls.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
     <script src="https://recast-api.donmccurdy.com/aframe-inspector-plugin-recast.js"></script>
+    <script src="https://unpkg.com/aframe-screenshot-component/dist/aframe-screenshot-component.min.js"></script>
     <!-- Weblink component for redirection -->
     <script>
         AFRAME.registerComponent("weblink", {
@@ -20,18 +21,20 @@
             },
             init: function() {
                 this.el.addEventListener("click", (e) => {
-                    window.location = this.data.url;
+                    if (e.detail.intersectedEl === this.el) {
+                        window.location = this.data.url;
+                    }
                 });
             }
         });
     </script>
 </head>
 <body>
-    <a-scene loading-screen="dotsColor: #DF5532; backgroundColor: #ffffff00">
+    <a-scene screenshot="width: 1920; height: 1080" loading-screen="dotsColor: #DF5532; backgroundColor: #ffffff00">
         <!-- Assets -->
         <a-assets>
             <img id="skydomeAsset" src="skies/skydome.jpeg">
-            <img id="photoPointIcon" src="photo-icon.png"> <!-- Ensure you have an icon image for photo points -->
+            <img id="photoPointIcon" src="photo-icon.png">
         </a-assets>
 
         <!-- Statues with Pop-ups -->
@@ -49,9 +52,11 @@
             </a-entity>
         </a-entity>
 
+        <!-- Shiba Model with weblink -->
+        <a-entity gltf-model="models/shiba.glb" position="135.37 28.52812 -27.527" rotation="0.3260129854294384 -68.98068078698033 -0.5534772300963753" scale="28 28 28" weblink="url:https://ddilmagh.github.io/aframeworld/videoworld1.html"></a-entity>
+
         <!-- Photo Points -->
         <a-image src="#photoPointIcon" position="-2 1.5 -3" rotation="0 45 0" scale="0.5 0.5 0.5" class="photo-point"></a-image>
-        <!-- Add more photo points as needed -->
 
         <!-- Sky -->
         <a-sky src="#skydomeAsset" rotation="0 0 0"></a-sky>
@@ -60,53 +65,13 @@
         <a-plane src="grass.jpg" position="0 0 -4" rotation="-90 0 0" width="100" height="100" color="#7BC8A4" scale="5 5 1"></a-plane>
 
         <!-- Text and Instructions -->
-      <a-text
-        font="kelsonsans"
-        value="Desktop"
-        width="30"
-        position="-143.43281 44 62"
-        rotation="0 -40.730996698055094 0"
-        color="#0d0c0c"
-        text="value: Welcome! Here's how to get around...; color: #d95000; transparent: false"
-        scale="4 4 4"
-        id="welcome"
-      ></a-text>
+        <a-text font="kelsonsans" value="Desktop" width="30" position="-143.43281 44 62" rotation="0 -40.730996698055094 0" color="#0d0c0c" text="value: Welcome! Here's how to get around...; color: #d95000; transparent: false" scale="4 4 4" id="welcome"></a-text>
 
-      <a-text
-        font="kelsonsans"
-        value="Instructions"
-        width="30"
-        position="-143.43281 28 62.05978"
-        rotation="0 -40.730996698055094 0"
-        color="#0d0c0c"
-        text="value: MOBILE: Hold down one thumb to move forward, two thumbs to move backward.; color: #d95000; transparent: false"
-        scale="4 4 4"
-        id="mobileinstructions"
-      ></a-text>
+        <a-text font="kelsonsans" value="Instructions" width="30" position="-143.43281 28 62.05978" rotation="0 -40.730996698055094 0" color="#0d0c0c" text="value: MOBILE: Hold down one thumb to move forward, two thumbs to move backward.; color: #d95000; transparent: false" scale="4 4 4" id="mobileinstructions"></a-text>
 
-      <a-text
-        font="kelsonsans"
-        value="Desktop"
-        width="30"
-        position="-143.43281 15 62.05978"
-        rotation="0 -40.730996698055094 0"
-        color="#0d0c0c"
-        text="value: DESKTOP: Use WASD + arrow keys.; color: #d95000; transparent: false"
-        scale="4 4 4"
-        id="desktopinstructions"
-      ></a-text>
+        <a-text font="kelsonsans" value="Desktop" width="30" position="-143.43281 15 62.05978" rotation="0 -40.730996698055094 0" color="#0d0c0c" text="value: DESKTOP: Use WASD + arrow keys.; color: #d95000; transparent: false" scale="4 4 4" id="desktopinstructions"></a-text>
 
-      <a-text
-        font="kelsonsans"
-        value="QR"
-        width="30"
-        position="-143.43281 5.7 62.05978"
-        rotation="0 -40.730996698055094 0"
-        color="#0d0c0c"
-        text="value: Click on a statue to explore different worlds.; color: #d95000; transparent: false"
-        scale="4 4 4"
-        id="desktopinstructions"
-      ></a-text>
+        <a-text font="kelsonsans" value="QR" width="30" position="-143.43281 5.7 62.05978" rotation="0 -40.730996698055094 0" color="#0d0c0c" text="value: Click on a statue to explore different worlds.; color: #d95000; transparent: false" scale="4 4 4" id="desktopinstructions"></a-text>
 
         <!-- Basic movement and teleportation -->
         <a-entity id="cameraRig" movement-controls="constrainToNavMesh: true; fly: false; speed: 5;" navigator="cameraRig: #cameraRig; cameraHead: #head; collisionEntities: .collision; ignoreEntities: .clickable" position="-186 25 132" rotation="-2.8 -75 -1">
@@ -141,11 +106,13 @@
             }
         }
 
-        // Photo point interaction
+        // Photo point interaction and screenshot logic
         document.querySelectorAll('.photo-point').forEach(function (photoPoint) {
             photoPoint.addEventListener('click', function () {
-                alert("Great spot for a photo!");
-                // Additional logic for taking a screenshot can be added here
+                var scene = document.querySelector('a-scene');
+                if (scene.components.screenshot) {
+                    scene.components.screenshot.capture('perspective');
+                }
             });
         });
     </script>
