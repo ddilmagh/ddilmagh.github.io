@@ -1,6 +1,5 @@
-<!DOCTYPE html>
 <html>
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
@@ -12,110 +11,146 @@
     <script src="https://rawgit.com/fernandojsg/aframe-teleport-controls/master/dist/aframe-teleport-controls.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
     <script src="https://recast-api.donmccurdy.com/aframe-inspector-plugin-recast.js"></script>
-   <script src="https://unpkg.com/aframe-screenshot-component@1.1.0/dist/aframe-screenshot-component.min.js"></script>
-
     <!-- Weblink component for redirection -->
     <script>
         AFRAME.registerComponent("weblink", {
             schema: {
-                url: { default: "" }
+                url: {
+                    default: ""
+                }
             },
             init: function() {
                 this.el.addEventListener("click", (e) => {
-                    if (e.detail.intersectedEl === this.el) {
-                        window.location = this.data.url;
-                    }
+                    window.location = this.data.url;
                 });
             }
         });
     </script>
-</head>
-<body>
-    <a-scene screenshot="width: 1920; height: 1080" loading-screen="dotsColor: #DF5532; backgroundColor: #FFFFFF">
+  </head>
+  <body>
+    
+ <a-scene loading-screen="dotsColor: #DF5532; backgroundColor: #ffffff00">
         <!-- Assets -->
         <a-assets>
             <img id="skydomeAsset" src="skies/skydome.jpeg">
-            <img id="photoPointIcon" src="photo-icon.png">
         </a-assets>
-
-        <!-- Statues with Pop-ups -->
-        <a-entity gltf-model="models/ibexstatue.glb" animation="property: rotation; to: 0 360 0; loop: true; dur: 10000" position="-123.04938 29.6263 -109.78851" rotation="0.81 40.217 0" scale="28 28 28" weblink="url:https://ddilmagh.github.io/aframeworld/world3.html">
-            <a-entity id="popup-statue1" position="0 1 -1" visible="false">
-                <a-plane color="white" height="1" width="2"></a-plane>
-                <a-text value="Info about Statue 1" color="black" position="0 0 0.1"></a-text>
-            </a-entity>
+        <!-- Statue -->
+        <a-entity
+          gltf-model="models/ibexstatue.glb" 
+          position="-123.04938 29.6263 -109.78851" 
+          rotation="0.81 40.217 0" 
+          scale="28 28 28"
+          weblink="url:https://ddilmagh.github.io/aframeworld/world3.html">
         </a-entity>
-
-        <a-entity gltf-model="models/skishoe.glb" position="-123.04938 29.6263 -40.78851" rotation="0.81 40.217 0" scale="28 28 28" weblink="url:https://ddilmagh.github.io/aframeworld/world4.html">
-            <a-entity id="popup-statue2" position="0 1 -1" visible="false">
-                <a-plane color="white" height="1" width="2"></a-plane>
-                <a-text value="Info about Statue 2" color="black" position="0 0 0.1"></a-text>
-            </a-entity>
+        <a-entity
+          gltf-model="models/skishoe.glb" 
+          position="-123.04938 29.6263 -40.78851" 
+          rotation="0.81 40.217 0" 
+          scale="28 28 28"
+          weblink="url:https://ddilmagh.github.io/aframeworld/world4.html">
         </a-entity>
-
         <!-- Shiba Model with weblink -->
-        <a-entity gltf-model="models/shiba.glb" position="135.37 28.52812 -27.527" rotation="0.3260129854294384 -68.98068078698033 -0.5534772300963753" scale="28 28 28" weblink="url:https://ddilmagh.github.io/aframeworld/videoworld1.html"></a-entity>
-
-        <!-- Photo Points -->
-        <a-image src="#photoPointIcon" position="137 28 -25" rotation="0 45 0" scale="0.5 0.5 0.5" class="photo-point interactive"></a-image>
+        <a-entity 
+          gltf-model="models/shiba.glb" 
+          position="135.37 28.52812 -27.527" 
+          rotation="0.3260129854294384 -68.98068078698033 -0.5534772300963753" 
+          scale="28 28 28"
+          weblink="url:https://ddilmagh.github.io/aframeworld/world2.html">
+          weblink="url:https://ddilmagh.github.io/aframeworld/videoworld1.html">
+        </a-entity>
 
         <!-- Sky -->
-        <a-sky src="#skydomeAsset" rotation="0 0 0"></a-sky>
-
+        <a-sky src="skies/skydome.jpeg" rotation="0 0 0"></a-sky>
         <!-- Grass -->
-        <a-plane src="grass.jpg" position="0 0 -4" rotation="-90 0 0" width="100" height="100" color="#7BC8A4" scale="5 5 1"></a-plane>
-
-        <!-- Text and Instructions -->
-        <a-text font="kelsonsans" value="Desktop" width="30" position="-143.43281 44 62" rotation="0 -40.730996698055094 0" color="#0d0c0c" text="value: Welcome! Here's how to get around...; color: #d95000; transparent: false" scale="4 4 4" id="welcome"></a-text>
-
-        <a-text font="kelsonsans" value="Instructions" width="30" position="-143.43281 28 62.05978" rotation="0 -40.730996698055094 0" color="#0d0c0c" text="value: MOBILE: Hold down one thumb to move forward, two thumbs to move backward.; color: #d95000; transparent: false" scale="4 4 4" id="mobileinstructions"></a-text>
-
-        <a-text font="kelsonsans" value="Desktop" width="30" position="-143.43281 15 62.05978" rotation="0 -40.730996698055094 0" color="#0d0c0c" text="value: DESKTOP: Use WASD + arrow keys.; color: #d95000; transparent: false" scale="4 4 4" id="desktopinstructions"></a-text>
-
-        <a-text font="kelsonsans" value="QR" width="30" position="-143.43281 5.7 62.05978" rotation="0 -40.730996698055094 0" color="#0d0c0c" text="value: Click on a statue to explore different worlds.; color: #d95000; transparent: false" scale="4 4 4" id="desktopinstructions"></a-text>
-
-        <!-- Basic movement and teleportation -->
-        <a-entity id="cameraRig" movement-controls="constrainToNavMesh: true; fly: false; speed: 5;" navigator="cameraRig: #cameraRig; cameraHead: #head; collisionEntities: .collision; ignoreEntities: .clickable" position="-186 25 132" rotation="-2.8 -75 -1">
-            <a-entity id="head" camera="active: true" position="0 1.6 0" look-controls="pointerLockEnabled: true; reverseMouseDrag: false">
+        <a-plane
+          src="grass.jpg"
+          position="0 0 -4"
+          rotation="-90 0 0"
+          width="100"
+          height="100"
+          color="#7BC8A4"
+          scale="5 5 1">
+        </a-plane>
+   
+      <!-- TEXT -->
+      <a-text
+        font="kelsonsans"
+        value="Desktop"
+        width="30"
+        position="-143.43281 44 62"
+        rotation="0 -40.730996698055094 0"
+        color="#0d0c0c"
+        text="value: Welcome! Here's how to get around...; color: #d95000; transparent: false"
+        scale="4 4 4"
+        id="welcome"
+      ></a-text>
+      <a-text
+        font="kelsonsans"
+        value="Instructions"
+        width="30"
+        position="-143.43281 28 62.05978"
+        rotation="0 -40.730996698055094 0"
+        color="#0d0c0c"
+        text="value: MOBILE: Hold down one thumb to move forward, two thumbs to move backward.; color: #d95000; transparent: false"
+        scale="4 4 4"
+        id="mobileinstructions"
+      ></a-text>
+      <a-text
+        font="kelsonsans"
+        value="Desktop"
+        width="30"
+        position="-143.43281 15 62.05978"
+        rotation="0 -40.730996698055094 0"
+        color="#0d0c0c"
+        text="value: DESKTOP: Use WASD + arrow keys.; color: #d95000; transparent: false"
+        scale="4 4 4"
+        id="desktopinstructions"
+      ></a-text>
+      <a-text
+        font="kelsonsans"
+        value="QR"
+        width="30"
+        position="-143.43281 5.7 62.05978"
+        rotation="0 -40.730996698055094 0"
+        color="#0d0c0c"
+        text="value: Click on a statue to explore different worlds.; color: #d95000; transparent: false"
+        scale="4 4 4"
+        id="desktopinstructions"
+      ></a-text>
+     
+      <!-- Basic movement and teleportation  -->
+      <!-- Basic movement and teleportation -->
+        <a-entity
+          id="cameraRig"
+          movement-controls="constrainToNavMesh: true; fly: false; speed: 5;"
+          navigator="cameraRig: #cameraRig; cameraHead: #head; collisionEntities: .collision; ignoreEntities: .clickable"
+          position="-186 25 132"
+          rotation="-2.8 -75 -1">
+            <!-- Camera with Cursor -->
+            <a-entity
+              id="head"
+              camera="active: true"
+              position="0 1.6 0"
+              look-controls="pointerLockEnabled: true; reverseMouseDrag: false">
                 <a-cursor></a-cursor>
             </a-entity>
-            <a-entity id="leftHand" hand-controls="hand: left; handModelStyle: lowPoly; color: #15ACCF" teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head; button: trigger; curveShootingSpeed: 18; landingMaxAngle: 60" visible="true"></a-entity>
-            <a-entity id="rightHand" hand-controls="hand: right; handModelStyle: lowPoly; color: #15ACCF" laser-controls raycaster="showLine: true; far: 10; interval: 0; objects: .interactive" line="color: #7cfc00; opacity: 0.5" visible="true"></a-entity>
-        </a-entity>
+        <!-- Left Controller -->
+        <a-entity
+          id="leftHand"
+          hand-controls="hand: left; handModelStyle: lowPoly; color: #15ACCF"
+          teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head; button: trigger; curveShootingSpeed: 18; landingMaxAngle: 60"
+          visible="true"
+        ></a-entity>
+        <!-- Right Controller -->
+        <a-entity
+          id="rightHand"
+          hand-controls="hand: right; handModelStyle: lowPoly; color: #15ACCF"
+          laser-controls
+          raycaster="showLine: true; far: 10; interval: 0; objects: .clickable, a-link;"
+          line="color: #7cfc00; opacity: 0.5"
+          visible="true"
+        ></a-entity>
+      </a-entity>
     </a-scene>
-
-    <script>
-        // Event listeners for pop-ups
-        document.querySelector('[gltf-model="models/ibexstatue.glb"]').addEventListener('click', function (e) {
-            togglePopup('popup-statue1', e);
-        });
-
-        document.querySelector('[gltf-model="models/skishoe.glb"]').addEventListener('click', function (e) {
-            togglePopup('popup-statue2', e);
-        });
-
-        // Function to toggle the visibility of pop-ups
-        function togglePopup(popupId, event) {
-            var popups = document.querySelectorAll('[id^="popup-statue"]');
-            popups.forEach(function (popup) {
-                popup.setAttribute('visible', false);
-            });
-
-            var popup = document.getElementById(popupId);
-            if (event.detail.intersectedEl === event.currentTarget) {
-                popup.setAttribute('visible', true);
-            }
-        }
-
-        // Photo point interaction and screenshot logic
-        document.querySelectorAll('.photo-point').forEach(function (photoPoint) {
-            photoPoint.addEventListener('click', function () {
-                var scene = document.querySelector('a-scene');
-                if (scene.components.screenshot) {
-                    scene.components.screenshot.capture('perspective');
-                }
-            });
-        });
-    </script>
-</body>
+  </body>
 </html>
