@@ -60,15 +60,16 @@
           weblink="url:https://ddilmagh.github.io/aframeworld/world4.html">
         </a-entity>
 
-     <a-entity 
+<!-- Shiba Model with weblink -->
+<a-entity 
   gltf-model="models/shiba.glb" 
   position="135.37 28.52812 -27.527" 
   rotation="0.3260129854294384 -68.98068078698033 -0.5534772300963753" 
   scale="28 28 28"
   weblink="url:https://ddilmagh.github.io/aframeworld/videoworld1.html"
-  class="clickable"  <!-- Add class for raycaster interaction -->
-  animation__click="property: scale; startEvents: click; from: 28 28 28; to: 30 30 30; dur: 500; dir: alternate"
->
+  class="clickable">
+  <!-- Additional attributes like animations or sound here -->
+</a-entity>
 
         <!-- Sky -->
         <a-sky src="skies/skydome.jpeg" rotation="0 0 0"></a-sky>
