@@ -42,6 +42,17 @@
       });
     }
   });
+    AFRAME.registerComponent('shiba-click', {
+    init: function() {
+      var model = document.getElementById('shiba-model');
+
+      model.addEventListener('click', function() {
+        // Trigger color change animation
+        model.emit('color-change');
+        // Include any other actions you want to trigger on click
+      });
+    }
+  });
 </script>
 
   </head>
@@ -82,6 +93,8 @@
   scale="28 28 28"
   class="clickable"
   animation__click="property: scale; startEvents: click; easing: easeInOutCubic; from: 28 28 28; to: 30 30 30; dur: 500"
+  animation__color="property: material.color; startEvents: color-change; dir: alternate; dur: 1000; from: #FFFFFF; to: #FF69B4">
+
   id="shiba-model">
     <a-text 
       value="Shiba Info" 
