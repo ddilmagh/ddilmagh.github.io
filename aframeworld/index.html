@@ -31,24 +31,19 @@
     }
   });
 
-  // Registration of the 'shiba-click' component
+  // Combined Registration of the 'shiba-click' component
   AFRAME.registerComponent('shiba-click', {
     init: function() {
       var model = document.getElementById('shiba-model');
       var info = document.getElementById('shiba-info');
-      model.addEventListener('click', function() {
-        info.setAttribute('visible', true);
-        // Add any other actions you want to trigger on click
-      });
-    }
-  });
-    AFRAME.registerComponent('shiba-click', {
-    init: function() {
-      var model = document.getElementById('shiba-model');
 
       model.addEventListener('click', function() {
+        // Toggle text visibility
+        info.setAttribute('visible', !info.getAttribute('visible'));
+
         // Trigger color change animation
         model.emit('color-change');
+
         // Include any other actions you want to trigger on click
       });
     }
@@ -87,6 +82,7 @@
 
 <!-- Shiba Model with weblink -->
 <a-entity 
+  id="shiba-model"  <!-- Correct placement of id attribute -->
   gltf-model="models/shiba.glb" 
   position="135.37 28.52812 -27.527" 
   rotation="0.3260129854294384 -68.98068078698033 -0.5534772300963753" 
@@ -94,16 +90,16 @@
   class="clickable"
   animation__click="property: scale; startEvents: click; easing: easeInOutCubic; from: 28 28 28; to: 30 30 30; dur: 500"
   animation__color="property: material.color; startEvents: color-change; dir: alternate; dur: 1000; from: #FFFFFF; to: #FF69B4">
-
-  id="shiba-model">
+    
     <a-text 
+      id="shiba-info"  <!-- Correct placement of id attribute -->
       value="Shiba Info" 
       align="center" 
       position="0 5 0" 
-      visible="false"
-      id="shiba-info">
+      visible="false">
     </a-text>
 </a-entity>
+
 
 
         <!-- Sky -->
