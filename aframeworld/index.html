@@ -3,14 +3,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
     <title>My Statue Yard</title>
+
     <!-- A-Frame main library -->
-    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+
     <!-- Additional components -->
     <script src="https://unpkg.com/aframe-thumb-controls-component@1.1.0/dist/aframe-thumb-controls-component.min.js"></script>
     <script src="https://rawgit.com/fernandojsg/aframe-teleport-controls/master/dist/aframe-teleport-controls.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
     <script src="https://recast-api.donmccurdy.com/aframe-inspector-plugin-recast.js"></script>
+
     <!-- Weblink component for redirection -->
     <script>
         AFRAME.registerComponent("weblink", {
@@ -28,12 +32,16 @@
     </script>
   </head>
   <body>
+
+
     
  <a-scene loading-screen="dotsColor: #DF5532; backgroundColor: #ffffff00">
+
         <!-- Assets -->
         <a-assets>
             <img id="skydomeAsset" src="skies/skydome.jpeg">
         </a-assets>
+
         <!-- Statue -->
         <a-entity
           gltf-model="models/ibexstatue.glb" 
@@ -42,6 +50,8 @@
           scale="28 28 28"
           weblink="url:https://ddilmagh.github.io/aframeworld/world3.html">
         </a-entity>
+
+
         <a-entity
           gltf-model="models/skishoe.glb" 
           position="-123.04938 29.6263 -40.78851" 
@@ -49,18 +59,19 @@
           scale="28 28 28"
           weblink="url:https://ddilmagh.github.io/aframeworld/world4.html">
         </a-entity>
+
         <!-- Shiba Model with weblink -->
         <a-entity 
           gltf-model="models/shiba.glb" 
           position="135.37 28.52812 -27.527" 
           rotation="0.3260129854294384 -68.98068078698033 -0.5534772300963753" 
           scale="28 28 28"
-          weblink="url:https://ddilmagh.github.io/aframeworld/world2.html">
           weblink="url:https://ddilmagh.github.io/aframeworld/videoworld1.html">
         </a-entity>
 
         <!-- Sky -->
         <a-sky src="skies/skydome.jpeg" rotation="0 0 0"></a-sky>
+
         <!-- Grass -->
         <a-plane
           src="grass.jpg"
@@ -72,7 +83,10 @@
           scale="5 5 1">
         </a-plane>
    
+
+
       <!-- TEXT -->
+
       <a-text
         font="kelsonsans"
         value="Desktop"
@@ -84,6 +98,7 @@
         scale="4 4 4"
         id="welcome"
       ></a-text>
+
       <a-text
         font="kelsonsans"
         value="Instructions"
@@ -95,6 +110,7 @@
         scale="4 4 4"
         id="mobileinstructions"
       ></a-text>
+
       <a-text
         font="kelsonsans"
         value="Desktop"
@@ -106,6 +122,7 @@
         scale="4 4 4"
         id="desktopinstructions"
       ></a-text>
+
       <a-text
         font="kelsonsans"
         value="QR"
@@ -117,8 +134,11 @@
         scale="4 4 4"
         id="desktopinstructions"
       ></a-text>
+
      
+
       <!-- Basic movement and teleportation  -->
+
       <!-- Basic movement and teleportation -->
         <a-entity
           id="cameraRig"
@@ -126,6 +146,7 @@
           navigator="cameraRig: #cameraRig; cameraHead: #head; collisionEntities: .collision; ignoreEntities: .clickable"
           position="-186 25 132"
           rotation="-2.8 -75 -1">
+
             <!-- Camera with Cursor -->
             <a-entity
               id="head"
@@ -134,6 +155,8 @@
               look-controls="pointerLockEnabled: true; reverseMouseDrag: false">
                 <a-cursor></a-cursor>
             </a-entity>
+
+
         <!-- Left Controller -->
         <a-entity
           id="leftHand"
@@ -141,6 +164,7 @@
           teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head; button: trigger; curveShootingSpeed: 18; landingMaxAngle: 60"
           visible="true"
         ></a-entity>
+
         <!-- Right Controller -->
         <a-entity
           id="rightHand"
