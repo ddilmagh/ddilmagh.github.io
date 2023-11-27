@@ -14,6 +14,8 @@
     <script src="https://rawgit.com/fernandojsg/aframe-teleport-controls/master/dist/aframe-teleport-controls.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
     <script src="https://recast-api.donmccurdy.com/aframe-inspector-plugin-recast.js"></script>
+    <script src="https://unpkg.com/aframe-particle-system-component/dist/aframe-particle-system-component.min.js"></script>
+
 
     <!-- Weblink component for redirection -->
 <script>
@@ -99,6 +101,7 @@
     </a-text>
 </a-entity>
 
+<a-entity particle-system="preset: rain; color: #7F7F7F; particleCount: 1000; size: 1; velocityValue: 0 0.01 0;"></a-entity>
 
         <!-- Sky -->
         <a-sky src="skies/skydome.jpeg" rotation="0 0 0"></a-sky>
